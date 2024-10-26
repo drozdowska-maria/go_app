@@ -1,0 +1,29 @@
+package domain
+
+import (
+	"context"
+	"my_app/src/infrastructure"
+)
+
+type {{.Name}} struct {
+	// TODO: implement me!
+}
+
+type D{{.Name}} = infrastructure.DataDecorator[{{.Name}}]
+
+type {{.Name}}Porter interface {
+	infrastructure.Porter[any, {{.Name}}]
+	// tu jakieś nowe w razie czego
+}
+func New{{.Name}}Service(repository {{.Name}}Porter) *{{.Name}}Service {
+	return &{{.Name}}Service{repository: repository}
+}
+
+type {{.Name}}Service struct {
+	// Dependency injection
+	repository {{.Name}}Porter
+}
+
+func (s *{{.Name}}Service) Get{{.Name}}s(ctx context.Context, query any) ([]D{{.Name}}, error) {
+	return s.repository.Get(ctx, query)
+}

@@ -5,7 +5,7 @@ import (
 	"my_app/src/domain"
 )
 
-// implements user porter
+// implements UserPorter
 
 type UserRepository struct {
 	// dependency injection
@@ -30,7 +30,7 @@ func (*UserRepository) Update(ctx context.Context, command domain.User) (*domain
 	return &domain.DUser{}, nil
 }
 
-func (*UserRepository) Delete(ctx context.Context, userId int) (bool, error) {
+func (*UserRepository) Delete(ctx context.Context, id int) (bool, error) {
 	// TODO: implement me!
 	return true, nil
 }

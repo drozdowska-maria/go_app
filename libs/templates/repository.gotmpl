@@ -1,0 +1,36 @@
+package ports
+
+import (
+	"context"
+	"my_app/src/domain"
+)
+
+// implements {{.Name}}Porter
+
+type {{.Name}}Repository struct {
+	// dependency injection
+}
+
+func New{{.Name}}Repository() *{{.Name}}Repository {
+	return &{{.Name}}Repository{}
+}
+
+func (*{{.Name}}Repository) Get(ctx context.Context, query any) ([]domain.D{{.Name}}, error) {
+	// TODO: implement me!
+	return []domain.D{{.Name}}{}, nil
+}
+
+func (*{{.Name}}Repository) Create(ctx context.Context, command domain.{{.Name}}) (int, error) {
+	// TODO: implement me!
+	return 1, nil
+}
+
+func (*{{.Name}}Repository) Update(ctx context.Context, command domain.{{.Name}}) (*domain.D{{.Name}}, error) {
+	// TODO: implement me!
+	return &domain.D{{.Name}}{}, nil
+}
+
+func (*{{.Name}}Repository) Delete(ctx context.Context, id int) (bool, error) {
+	// TODO: implement me!
+	return true, nil
+}

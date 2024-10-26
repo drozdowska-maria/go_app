@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const User = "//users"
+const User = "/users"
 
 type UserController struct {
 	service *domain.UserService
