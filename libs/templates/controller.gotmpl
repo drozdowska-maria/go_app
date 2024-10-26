@@ -1,0 +1,62 @@
+package adapters
+
+import (
+	"fmt"
+	"my_app/src/domain"
+	"my_app/src/infrastructure"
+
+	"github.com/gin-gonic/gin"
+)
+
+const {{.Name}} = "/{{.RouteName}}"
+
+type {{.Name}}Controller struct {
+	service *domain.{{.Name}}Service
+}
+
+func (c *{{.Name}}Controller) Create{{.Name}}(ctx *gin.Context) {
+	// TODO: implement me!
+}
+
+func (c *{{.Name}}Controller) GetAll{{.Name}}s(ctx *gin.Context) {
+	// TODO: implement me!
+}
+
+func (c *{{.Name}}Controller) Get{{.Name}}ById(ctx *gin.Context) {
+	// TODO: implement me!
+}
+
+func (c *{{.Name}}Controller) Update{{.Name}}(ctx *gin.Context) {
+	// TODO: implement me!
+}
+
+func (c *{{.Name}}Controller) Delete{{.Name}}(ctx *gin.Context) {
+	// TODO: implement me!
+}
+
+func New{{.Name}}Adapter() *{{.Name}}Controller {
+	return &{{.Name}}Controller{}
+}
+
+func (c *{{.Name}}Controller) SetPort(port infrastructure.Port) {
+	// c.service = domain.New{{.Name}}Service(port)
+}
+
+func (c *{{.Name}}Controller) Setup(r *gin.Engine, port infrastructure.Port) error {
+	group := r.Group({{.Name}})
+
+	porter, ok := port.(domain.{{.Name}}Porter)
+	if !ok {
+		return fmt.Errorf("zly typ %s", {{.Name}})
+	}
+
+	c.service = domain.New{{.Name}}Service(porter)
+
+	group.GET("", c.GetAll{{.Name}}s)
+	group.GET("/:id", c.Get{{.Name}}ById)
+	group.POST("", c.Create{{.Name}})
+	group.PATCH("/:id", c.Update{{.Name}})
+	group.DELETE("/:id", c.Delete{{.Name}})
+
+	return nil
+}

@@ -1,43 +1,34 @@
 package main
 
 import (
-	"my_app/src/adapters"
-	"my_app/src/ports/v1"
+	"fmt"
+	a "my_app/src/adapters"
+	"my_app/src/infrastructure"
+	p "my_app/src/ports/v1"
+	"os"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-type Adapter interface {
-	NewAdapter() Adapter
+func initAdapters() map[string]infrastructure.Adapter {
+	var adapters = map[string]infrastructure.Adapter{}
+
+	adapters[a.User] = a.NewUserAdapter()
+
+	return adapters
 }
 
-func setupRoutes(r *gin.Engine, adapter map[string]Adapter) {
-	var groups map[string]*gin.RouterGroup
+func initPorts() map[string]infrastructure.Port {
+	var ports = map[string]infrastructure.Port{}
 
-	for groupName, _ := range adapter {
-		groups[groupName] = r.Group(groupName)
-	}
+	ports[a.User] = p.NewUserRepository()
 
-	userController := adapters.NewUserController(
-		ports.NewUserRepository(),
-	)
-
-	for groupName, group := range groups {
-		switch groupName {
-		case adapters.User:
-			group.GET("", userController.GetAllUsers)
-			group.GET("/:id", userController.GetUserById)
-			group.POST("", userController.CreateUser)
-			group.PATCH("/:id", userController.UpdateUser)
-			group.DELETE("/:id", userController.DeleteUser)
-		}
-	}
-
+	return ports
 }
 
-func main() {
-
+func setupGinRouting(adapters map[string]infrastructure.Adapter, ports map[string]infrastructure.Port) error {
 	r := gin.Default()
 
 	r.GET("/ping", func(c *gin.Context) {
@@ -52,5 +43,30 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "Hello " + name})
 	})
 
+	for groupName, ad := range adapters {
+		switch groupName {
+		case a.User:
+			userController, ok := ad.(*a.UserController)
+			if !ok {
+				return fmt.Errorf("zly typ %s", a.User)
+			}
+			userController.Setup(r, ports[a.User])
+		}
+	}
+
 	r.Run()
+	return nil
+}
+
+func main() {
+
+	adapters := initAdapters()
+	ports := initPorts()
+
+	err := setupGinRouting(adapters, ports)
+
+	if err != nil {
+		os.Exit(1)
+	}
+
 }
