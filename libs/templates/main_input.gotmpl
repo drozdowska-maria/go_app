@@ -1,0 +1,8 @@
+case controllers.{{.Name}}:
+	{{.NameLower}}Controller, ok := ad.(*controllers.{{.Name}}Controller)
+		if !ok {
+			return fmt.Errorf("zly typ %s", controllers.{{.Name}})
+		}
+		{{.NameLower}}Controller.Setup(r, repos[controllers.{{.Name}}])
+		
+// NEXT CASES - DO NOT DELETE THIS COMMENT

@@ -11,17 +11,18 @@ type User struct {
 
 type DUser = infrastructure.DataDecorator[User]
 
-type UserPorter interface {
-	infrastructure.Porter[any, User]
+type UserCrud interface {
+	infrastructure.CrudRepository[any, User]
 	// tu jakieś nowe w razie czego
 }
-func NewUserService(repository UserPorter) *UserService {
+
+func NewUserService(repository UserCrud) *UserService {
 	return &UserService{repository: repository}
 }
 
 type UserService struct {
 	// Dependency injection
-	repository UserPorter
+	repository UserCrud
 }
 
 func (s *UserService) GetUsers(ctx context.Context, query any) ([]DUser, error) {

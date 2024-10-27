@@ -2,14 +2,14 @@ package infrastructure
 
 import "context"
 
-type Port interface{}
+type Repository interface{}
 
-type Porter[Q any, D any] interface {
-	Port
+type CrudRepository[Q any, D any] interface {
+	Repository
 	Get(context.Context, Q) ([]DataDecorator[D], error)
 	Create(context.Context, D) (int, error)
 	Update(context.Context, D) (*DataDecorator[D], error)
 	Delete(context.Context, int) (bool, error)
 }
 
-type Adapter interface{}
+type Controller interface{}

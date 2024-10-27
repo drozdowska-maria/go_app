@@ -20,17 +20,8 @@ func setupGinRouting(ctrls map[string]infrastructure.Controller, repos map[strin
 				return fmt.Errorf("zly typ %s", controllers.User)
 			}
 			userController.Setup(r, repos[controllers.User])
-
-		case controllers.Tata:
-			tataController, ok := ad.(*controllers.TataController)
-			if !ok {
-				return fmt.Errorf("zly typ %s", controllers.Tata)
-			}
-			tataController.Setup(r, repos[controllers.Tata])
-
-			// NEXT CASES - DO NOT DELETE THIS COMMENT
-
 		}
+		// NEXT CASES - DO NOT DELETE THIS COMMENT
 	}
 
 	r.Run()
@@ -45,3 +36,4 @@ func main() {
 	}
 
 }
+

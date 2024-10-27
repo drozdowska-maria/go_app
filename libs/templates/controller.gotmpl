@@ -1,4 +1,4 @@
-package adapters
+package controllers
 
 import (
 	"fmt"
@@ -38,14 +38,14 @@ func New{{.Name}}Adapter() *{{.Name}}Controller {
 	return &{{.Name}}Controller{}
 }
 
-func (c *{{.Name}}Controller) SetPort(port infrastructure.Port) {
+func (c *{{.Name}}Controller) SetPort(port infrastructure.Repository) {
 	// c.service = domain.New{{.Name}}Service(port)
 }
 
-func (c *{{.Name}}Controller) Setup(r *gin.Engine, port infrastructure.Port) error {
+func (c *{{.Name}}Controller) Setup(r *gin.Engine, port infrastructure.Repository) error {
 	group := r.Group({{.Name}})
 
-	porter, ok := port.(domain.{{.Name}}Porter)
+	porter, ok := port.(domain.{{.Name}}Crud)
 	if !ok {
 		return fmt.Errorf("zly typ %s", {{.Name}})
 	}

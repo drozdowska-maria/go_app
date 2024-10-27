@@ -11,17 +11,18 @@ type {{.Name}} struct {
 
 type D{{.Name}} = infrastructure.DataDecorator[{{.Name}}]
 
-type {{.Name}}Porter interface {
-	infrastructure.Porter[any, {{.Name}}]
+type {{.Name}}Crud interface {
+	infrastructure.CrudRepository[any, {{.Name}}]
 	// tu jakieś nowe w razie czego
 }
-func New{{.Name}}Service(repository {{.Name}}Porter) *{{.Name}}Service {
+
+func New{{.Name}}Service(repository {{.Name}}Crud) *{{.Name}}Service {
 	return &{{.Name}}Service{repository: repository}
 }
 
 type {{.Name}}Service struct {
 	// Dependency injection
-	repository {{.Name}}Porter
+	repository {{.Name}}Crud
 }
 
 func (s *{{.Name}}Service) Get{{.Name}}s(ctx context.Context, query any) ([]D{{.Name}}, error) {
